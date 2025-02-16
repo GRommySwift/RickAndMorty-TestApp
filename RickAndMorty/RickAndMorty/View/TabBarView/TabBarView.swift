@@ -10,45 +10,6 @@ import SwiftUI
 struct TabBarView: View {
     @State private var selectedIndex: Int = 0
     
-    //    init() {
-    //        let appearance = UITabBarAppearance()
-    //        appearance.configureWithTransparentBackground()
-    //        appearance.backgroundColor = UIColor.clear
-    //        UITabBar.appearance().standardAppearance = appearance
-    //    }
-    
-    //    var body: some View {
-    //
-    //        ZStack(alignment: .bottom) {
-    //            TabView(selection: $selectedIndex) {
-    //                MainCharactersView()
-    //                    .tag(0)
-    //
-    //                FavoriteCharacterView()
-    //                    .tag(1)
-    //            }
-    //            .tabViewStyle(.page)
-    //
-    //            ZStack {
-    //                HStack {
-    //                    ForEach(TabItems.allCases, id: \.self) { item in
-    //                        Button {
-    //                            selectedIndex = item.rawValue
-    //                        } label: {
-    //                            customTabItem(image: item.icon, isActive: (selectedIndex == item.rawValue))
-    //                        }
-    //                    }
-    //                }
-    //                .padding(10)
-    //            }
-    //            .frame(width: 182, height: 62)
-    //            .background(.backgroundsBottomNavigation)
-    //            .cornerRadius(40)
-    //        }
-    //    }
-    //}
-    //
-    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {

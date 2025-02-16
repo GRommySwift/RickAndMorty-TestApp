@@ -8,6 +8,7 @@
 import Foundation
 
 enum InterStyle: String {
-    case bold = "Inter-Bold"
-    case regular = "Inter-Regular"
+    case bold = "Inter24pt-Bold"
+    case regular = "Inter24pt-Regular"
 }
+

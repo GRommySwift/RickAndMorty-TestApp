@@ -15,29 +15,39 @@ enum FontStyle {
     case paragraphMedium
     case paragraphSmall
     case bottomNavigation
+    
+    var font: Font {
+        switch self {
+        case .headLine1:
+            FontStyle.inter(style: .bold, size: 28)
+        case .headLine2:
+            FontStyle.inter(style: .bold, size: 20)
+        case .headLine3:
+            FontStyle.inter(style: .bold, size: 16)
+        case .paragraphLarge:
+            FontStyle.inter(style: .regular, size: 18)
+        case .paragraphMedium:
+            FontStyle.inter(style: .regular, size: 16)
+        case .paragraphSmall:
+            FontStyle.inter(style: .regular, size: 14)
+        case .bottomNavigation:
+            FontStyle.inter(style: .regular, size: 12)
+        }
+    }
+    
+    private static func inter(style: InterStyle, size: CGFloat, weight: Font.Weight? = nil) -> Font {
+        Font.custom(style.rawValue, size: size)
+    }
 }
 
 extension Font {
-    
-    private static func inter(style: InterStyle, size: CGFloat) -> Font {
-        Font.custom(style.rawValue, size: size)
-    }
-    
-    fileprivate static func custom(_ fontType: FontStyle) -> Font {
-        return switch fontType {
-        case .headLine1: inter(style: .bold, size: 28)
-        case .headLine2: inter(style: .bold, size: 20)
-        case .headLine3: inter(style: .bold, size: 16)
-        case .paragraphLarge: inter(style: .regular, size: 18)
-        case .paragraphMedium: inter(style: .regular, size: 16)
-        case .paragraphSmall: inter(style: .regular, size: 14)
-        case .bottomNavigation: inter(style: .regular, size: 12)
-        }
-    }
+    static let headLine1 = FontStyle.headLine1.font
+    static let headLine2 = FontStyle.headLine2.font
+    static let headLine3 = FontStyle.headLine3.font
+    static let paragraphLarge = FontStyle.paragraphLarge.font
+    static let paragraphMedium = FontStyle.paragraphMedium.font
+    static let paragraphSmall = FontStyle.paragraphSmall.font
+    static let bottomNavigation = FontStyle.bottomNavigation.font
 }
 
-extension View {
-    func font(style: FontStyle) -> some View {
-        self.font(Font.custom(style))
-    }
-}
+
