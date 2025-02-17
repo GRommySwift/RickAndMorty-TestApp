@@ -21,7 +21,8 @@ struct Info: Codable {
 // MARK: - Result
 struct Result: Codable {
     let id: Int
-    let name, status, species, type: String
+    let name, status, species: String
+    let type: String
     let gender: String
     let origin, location: Location
     let image: String?

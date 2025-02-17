@@ -12,18 +12,15 @@ struct ImageLoader: View {
     let widthOfImage: CGFloat
     let character: Result
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color(UIColor.clear).edgesIgnoringSafeArea(.all)
             if let url = character.image, let imageURL = URL(string: url) {
                 KFImage(imageURL)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                   // .aspectRatio(contentMode: .fill)
                     .cornerRadius(8)
                     //.padding()
                    // .shadow(color: .black.opacity(0.2), radius: 8, x: 5, y: 8)
                     .frame(width: widthOfImage, height: widthOfImage)
             }
-        }
     }
 }
 

@@ -36,6 +36,6 @@ struct ListOfCharacters: View {
         }
         .frame(minWidth: UIScreen.main.bounds.width - 40, maxWidth: UIScreen.main.bounds.width - 40)
         .background(.backgroundsTertiary).cornerRadius(16)
-        .padding(.bottom, 16)
+        .padding(.bottom, 10)
     }
 }
