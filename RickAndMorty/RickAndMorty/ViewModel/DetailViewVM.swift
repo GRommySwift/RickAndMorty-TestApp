@@ -14,10 +14,10 @@ import Observation
 class DetailViewVM {
     var character: [Result] = []
     
-    func fetchCharacter() async {
+    func fetchCharacter(id: Int) async {
         do {
             
-            let response = try await NetworkManager.shared.fetchData(from: URLConstant.detailOfCharacter(id: 1).url, as: Result.self)
+            let response = try await NetworkManager.shared.fetchData(from: URLConstant.detailOfCharacter(id: id).url, as: Result.self)
             character = [response]
         } catch {
             if let error = error as? NetworkError {

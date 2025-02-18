@@ -8,89 +8,129 @@
 import SwiftUI
 
 struct DetailView: View {
+    @Environment(\.dismiss) var dismiss
+    let backButtonTitle: String
+    let idOfCharacter: Int
     @State private var viewModel = DetailViewVM()
     var frameHeight: CGFloat {
-            let screenHeight = UIScreen.main.bounds.height
+        let screenHeight = UIScreen.main.bounds.height
         let heightRatio: CGFloat = screenHeight > 736 ? 1.85 : 1.41
-            return screenHeight / heightRatio
-        }
+        return screenHeight / heightRatio
+    }
     
     var body: some View {
-        NavigationView {
-            ForEach(viewModel.character, id: \.id) { character in
-                VStack(spacing: 0) {
-                    HStack() {
-                        ImageLoader(widthOfImage: 140, character: character)
-                        VStack(alignment: .leading) {
-                            Text("Name")
-                                .font(.paragraphMedium)
-                                .foregroundColor(.foregroundsSecondary)
-                                .offset(y: -30)
-                            Text(character.name)
-                                .font(.headLine2)
-                                .foregroundColor(.foregroundsPrimary)
-                                .frame(width: 100, alignment: .leading)
-                                .offset(y: -20)
-                        }
-                        Spacer()
-                    }
-                    .padding()
-                    .frame(height: 160)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                    .overlay(
-                        Image("favorites_inactive")
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundStyle(.iconsSecondary)
-                            .offset(x: -15, y: 15),
-                        alignment: .topTrailing
-                    )
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(.foregroundsSeparator)
-                        HStack {
-                            VStack(alignment: .leading, spacing: 27) {
-                                Text("Status")
-                                Text("Species")
-                                Text("Type")
-                                Text("Gender")
-                                Text("Origin")
-                                Text("Location")
-                            }
-                            .font(.paragraphSmall)
-                            .foregroundStyle(.foregroundsSecondary)
-                            .padding(.leading, 24)
-                            .padding(.trailing, 47)
-                            VStack(alignment: .leading, spacing: 27) {
-                                Text(character.status)
-                                Text(character.species)
-                                Text(character.type.isEmpty ? "-" : character.type)
-                                Text(character.gender)
-                                Text(character.origin.name)
-                                Text(character.location.name)
-                            }
-                            .font(.headLine3)
-                            .foregroundStyle(.foregroundsPrimary)
-                            Spacer()
-                        }
-                        .padding(.bottom, 24)
-                        .padding(.top, 24)
-                }
-                .frame(width: UIScreen.main.bounds.width / 1.13, height: frameHeight)
-                .background(Color.white)
-                .cornerRadius(16)
-                .shadow(radius: 4)
-            }
-            
+        VStack {
+            characterCard
+                .padding(.top)
+            Spacer()
         }
-        .task {
-            await viewModel.fetchCharacter()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.backgroundsPrimary)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image("arrow_left")
+                        .foregroundStyle(.iconsPrimary)
+                    Text(backButtonTitle)
+                        .font(.paragraphMedium)
+                        .foregroundStyle(.foregroundsPrimary)
+                }
+
+            }
         }
     }
 }
 
+// MARK: - View elements
+
+private extension DetailView {
+    
+    // MARK: - Character card view
+    
+    var characterCard: some View {
+        VStack {
+            ForEach(viewModel.character, id: \.id) { character in
+                headerView(character: character)
+                Divider().background(Color.foregroundsSeparator)
+                detailsView(character: character)
+            }
+        }
+        .task {
+            await viewModel.fetchCharacter(id: idOfCharacter)
+        }
+        .padding(.horizontal, UIConstants.cardHorizontalPadding)
+        .padding(.top, UIConstants.cardTopPadding)
+        .frame(maxWidth: UIConstants.cardMaxWidth)
+        .background(.backgroundsTertiary)
+        .cornerRadius(UIConstants.cardCornerRadius)
+        .shadow(radius: UIConstants.cardShadowRadius)
+    }
+    
+    // MARK: - Header of character card view
+    
+    func headerView(character: Result) -> some View {
+        HStack {
+            ImageLoader(widthOfImage: UIConstants.imageWidth, character: character)
+            VStack(alignment: .leading) {
+                Text("Name")
+                    .font(.paragraphMedium)
+                    .foregroundColor(.foregroundsSecondary)
+                    .offset(x: UIConstants.textXOffset, y: UIConstants.nameYOffset)
+                
+                Text(character.name)
+                    .font(.headLine2)
+                    .foregroundColor(.foregroundsPrimary)
+                    .frame(width: UIConstants.textWidth, alignment: .leading)
+                    .offset(x: UIConstants.textXOffset, y: UIConstants.valueYOffset)
+            }
+            Spacer()
+        }
+        .padding(UIConstants.imagePadding)
+        .frame(height: UIConstants.headerHeight)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .overlay(
+            Image("favorites_inactive")
+                .renderingMode(.template)
+                .resizable()
+                .scaledToFit()
+                .frame(width: UIConstants.favoriteIconSize, height: UIConstants.favoriteIconSize)
+                .foregroundStyle(.iconsSecondary)
+                .offset(x: UIConstants.favoriteIconXOffset, y: UIConstants.favoriteIconYOffset),
+            alignment: .topTrailing
+        )
+    }
+    
+    // MARK: - Details of character card view
+    
+    func detailsView(character: Result) -> some View {
+        let details: [(title: String, value: String)] = [
+            ("Status", character.status),
+            ("Species", character.species),
+            ("Type", character.type.isEmpty ? "-" : character.type),
+            ("Gender", character.gender),
+            ("Origin", character.origin.name),
+            ("Location", character.location.name)
+        ]
+        
+        return LazyVGrid(columns: UIConstants.gridColumns, spacing: UIConstants.gridVerticalSpacing) {
+            ForEach(details, id: \.title) { detail in
+                Text(detail.title)
+                    .font(.paragraphSmall)
+                    .foregroundStyle(.foregroundsSecondary)
+                
+                Text(detail.value)
+                    .font(.headLine3)
+                    .foregroundStyle(.foregroundsPrimary)
+            }
+        }
+        .padding(.leading, UIConstants.detailsPaddingLeading)
+        .padding(.vertical, UIConstants.detailsPaddingVertical)
+    }
+}
+
 #Preview {
-    DetailView()
+    DetailView(backButtonTitle: "Back", idOfCharacter: 1)
 }

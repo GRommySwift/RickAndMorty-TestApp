@@ -17,6 +17,7 @@ struct ListOfCharacters: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(character.name)
                     .foregroundStyle(.foregroundsPrimary)
+                    .multilineTextAlignment(.leading)
                     .font(.headLine3)
                 Text(character.status)
                     .foregroundStyle(.foregroundsSecondary)

@@ -21,7 +21,7 @@ class MainCharacterVM {
         defer { isLoading = false }
         
         do {
-            let response = try await NetworkManager.shared.fetchData(from: nextPage ?? URLConstant.allCharacters.url, as: CharacterResponse.self)
+            let response = try await NetworkManager.shared.fetchData(from: URLConstant.allCharacters.url, as: CharacterResponse.self)
             characters = response.results
             nextPage = response.info.next
         } catch {

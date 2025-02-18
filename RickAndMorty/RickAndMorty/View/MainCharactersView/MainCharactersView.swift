@@ -17,7 +17,13 @@ struct MainCharactersView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     SearchInput(searchText: $inputText)
                     ForEach(viewModel.characters, id: \.id) { character in
-                        ListOfCharacters(character: character)
+                        NavigationLink(
+                            destination: DetailView(backButtonTitle: character.name, idOfCharacter: character.id)
+                            ) {
+                            ListOfCharacters(character: character)
+                                    
+                        }
+                            
                     }
                 }
             }
