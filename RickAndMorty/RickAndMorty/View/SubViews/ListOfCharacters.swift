@@ -9,12 +9,13 @@ import SwiftUI
 
 struct ListOfCharacters: View {
     let character: Result
+    let isSearch: Bool
     var body: some View {
-        HStack(spacing: 3) {
-            ImageLoader(widthOfImage: 44, character: character)
-                .frame(width: 44)
-                .padding(10)
-            VStack(alignment: .leading, spacing: 2) {
+        HStack(spacing: UIConstants.hStackSpacing) {
+            ImageLoader(widthOfImage: UIConstants.widthOfImage, character: character)
+                .frame(width: UIConstants.widthOfFrame)
+                .padding(UIConstants.objectsPadding)
+            VStack(alignment: .leading, spacing: UIConstants.vStackSpacing) {
                 Text(character.name)
                     .foregroundStyle(.foregroundsPrimary)
                     .multilineTextAlignment(.leading)
@@ -23,20 +24,22 @@ struct ListOfCharacters: View {
                     .foregroundStyle(.foregroundsSecondary)
                     .font(.paragraphSmall)
             }
-            .padding(.top, 10)
-            .padding(.bottom, 11)
-            .frame(width: 150, alignment: .leading)
+            .padding(.top, UIConstants.objectsPadding)
+            .padding(.bottom, UIConstants.objectsPadding)
+            .frame(width: UIConstants.vStackFrameWidth, alignment: .leading)
             Spacer()
-            Image("arrow_right")
-                .renderingMode(.template)
-                .foregroundStyle(.iconsSecondary)
-                .padding(.trailing, 10)
-                .scaledToFit()
-                .frame(width: 16, height: 16)
-                .padding(.trailing, 8)
+            if !isSearch {
+                Image("arrow_right")
+                    .renderingMode(.template)
+                    .foregroundStyle(.iconsSecondary)
+                    .padding(.trailing, UIConstants.objectsPadding)
+                    .scaledToFit()
+                    .frame(width: UIConstants.imageFrameSize, height: UIConstants.imageFrameSize)
+                    .padding(.trailing, UIConstants.iconPadding)
+            }
         }
-        .frame(minWidth: UIScreen.main.bounds.width - 40, maxWidth: UIScreen.main.bounds.width - 40)
-        .background(.backgroundsTertiary).cornerRadius(16)
-        .padding(.bottom, 10)
+        .frame(minWidth: UIConstants.listScreenWidth, maxWidth: UIConstants.listScreenWidth)
+        .background(.backgroundsTertiary.opacity(isSearch ? 0 : 1)).cornerRadius(UIConstants.backgroundCornerRadius)
+        .padding(.bottom, isSearch ? UIConstants.searchViewPadding : UIConstants.objectsPadding)
     }
 }

@@ -12,35 +12,35 @@ struct DetailView: View {
     let backButtonTitle: String
     let idOfCharacter: Int
     @State private var viewModel = DetailViewVM()
-    var frameHeight: CGFloat {
-        let screenHeight = UIScreen.main.bounds.height
-        let heightRatio: CGFloat = screenHeight > 736 ? 1.85 : 1.41
-        return screenHeight / heightRatio
-    }
     
     var body: some View {
-        VStack {
-            characterCard
-                .padding(.top)
-            Spacer()
+        
+        ScrollView(showsIndicators: false) {
+            VStack {
+                characterCard
+                    .padding(.top)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.backgroundsPrimary)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image("arrow_left")
+                            .foregroundStyle(.iconsPrimary)
+                        Text(backButtonTitle)
+                            .font(.paragraphMedium)
+                            .foregroundStyle(.foregroundsPrimary)
+                    }
+                    
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.backgroundsPrimary)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image("arrow_left")
-                        .foregroundStyle(.iconsPrimary)
-                    Text(backButtonTitle)
-                        .font(.paragraphMedium)
-                        .foregroundStyle(.foregroundsPrimary)
-                }
-
-            }
-        }
     }
 }
 
@@ -61,8 +61,8 @@ private extension DetailView {
         .task {
             await viewModel.fetchCharacter(id: idOfCharacter)
         }
-        .padding(.horizontal, UIConstants.cardHorizontalPadding)
-        .padding(.top, UIConstants.cardTopPadding)
+        .padding(.horizontal, UIConstants.cardPadding)
+        .padding(.top, UIConstants.cardPadding)
         .frame(maxWidth: UIConstants.cardMaxWidth)
         .background(.backgroundsTertiary)
         .cornerRadius(UIConstants.cardCornerRadius)
