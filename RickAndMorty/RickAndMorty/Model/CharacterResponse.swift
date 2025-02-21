@@ -19,7 +19,11 @@ struct Info: Codable {
 }
 
 // MARK: - Result
-struct Result: Codable {
+struct Result: Codable, Equatable, CharacterRepresentable {
+    static func == (lhs: Result, rhs: Result) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     let id: Int
     let name, status, species: String
     let type: String
@@ -31,4 +35,9 @@ struct Result: Codable {
 // MARK: - Location
 struct Location: Codable {
     let name: String
+}
+
+extension Result {
+    var originName: String { origin.name }
+    var locationName: String { location.name }
 }

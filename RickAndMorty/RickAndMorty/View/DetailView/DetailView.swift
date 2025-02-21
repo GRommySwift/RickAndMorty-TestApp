@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DetailView: View {
+    
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var favoriteViewModel: FavoriteViewVM
+    @State private var viewModel = DetailViewVM()
+    @Query private var favorites: [CharacterFavorite]
+    
     let backButtonTitle: String
     let idOfCharacter: Int
-    @State private var viewModel = DetailViewVM()
+    
+    var isFavorite: Bool {
+        favorites.contains { $0.id == idOfCharacter }
+    }
     
     var body: some View {
         
@@ -30,6 +39,7 @@ struct DetailView: View {
                         dismiss()
                     } label: {
                         Image("arrow_left")
+                            .renderingMode(.template)
                             .foregroundStyle(.iconsPrimary)
                         Text(backButtonTitle)
                             .font(.paragraphMedium)
@@ -92,15 +102,18 @@ private extension DetailView {
         .frame(height: UIConstants.headerHeight)
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(
-            Image("favorites_inactive")
+            Image(isFavorite ? "favorites_active" : "favorites_inactive")
                 .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIConstants.favoriteIconSize, height: UIConstants.favoriteIconSize)
-                .foregroundStyle(.iconsSecondary)
+                .foregroundStyle(isFavorite ? .accentPrimary : .iconsSecondary)
                 .offset(x: UIConstants.favoriteIconXOffset, y: UIConstants.favoriteIconYOffset),
             alignment: .topTrailing
         )
+        .onTapGesture {
+            favoriteViewModel.toggleFavorite(character)
+        }
     }
     
     // MARK: - Details of character card view

@@ -6,20 +6,37 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct ListOfCharacters: View {
-    let character: Result
+struct ListOfCharacters<T: CharacterRepresentable>: View {
+    
+    @EnvironmentObject var viewModel: FavoriteViewVM
+    @Query private var favorites: [CharacterFavorite]
+    
+    let character: T
     let isSearch: Bool
+    
+    private var isFavorite: Bool {
+        favorites.contains { $0.id == character.id }
+    }
+    
     var body: some View {
         HStack(spacing: UIConstants.hStackSpacing) {
             ImageLoader(widthOfImage: UIConstants.widthOfImage, character: character)
                 .frame(width: UIConstants.widthOfFrame)
                 .padding(UIConstants.objectsPadding)
             VStack(alignment: .leading, spacing: UIConstants.vStackSpacing) {
-                Text(character.name)
-                    .foregroundStyle(.foregroundsPrimary)
-                    .multilineTextAlignment(.leading)
-                    .font(.headLine3)
+                HStack {
+                    Text(character.name)
+                        .foregroundStyle(.foregroundsPrimary)
+                        .multilineTextAlignment(.leading)
+                        .font(.headLine3)
+                    Image("favorites_active")
+                        .resizable()
+                        .frame(width: UIConstants.imageFrameSize, height: UIConstants.imageFrameSize)
+                        .padding(.leading, UIConstants.favoriteIconXOffset)
+                        .opacity(isFavorite ? 1 : 0)
+                }
                 Text(character.status)
                     .foregroundStyle(.foregroundsSecondary)
                     .font(.paragraphSmall)
@@ -41,5 +58,10 @@ struct ListOfCharacters: View {
         .frame(minWidth: UIConstants.listScreenWidth, maxWidth: UIConstants.listScreenWidth)
         .background(.backgroundsTertiary.opacity(isSearch ? 0 : 1)).cornerRadius(UIConstants.backgroundCornerRadius)
         .padding(.bottom, isSearch ? UIConstants.searchViewPadding : UIConstants.objectsPadding)
+        
     }
+}
+
+#Preview {
+    ListOfCharacters(character: Result(id: 1, name: "asdas asdas", status: "asdasd", species: "Asdasd", type: "asdasd", gender: "asdasd", origin: Location(name: "some"), location: Location(name: "where"), image: "AppIcon"), isSearch: false)
 }

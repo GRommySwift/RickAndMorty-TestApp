@@ -8,9 +8,9 @@
 import SwiftUI
 import Kingfisher
 
-struct ImageLoader: View {
+struct ImageLoader<T: CharacterRepresentable>: View {
     let widthOfImage: CGFloat
-    let character: Result
+    let character: T
     var body: some View {
             if let url = character.image, let imageURL = URL(string: url) {
                 KFImage(imageURL)

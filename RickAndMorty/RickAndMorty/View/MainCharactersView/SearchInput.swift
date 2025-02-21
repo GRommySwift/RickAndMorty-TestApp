@@ -71,7 +71,7 @@ struct SearchInput: View {
                         .foregroundStyle(.foregroundsPrimary)
                         .font(.paragraphMedium)
                 }
-                .padding(.bottom)
+                .padding(.bottom, 6)
                 .padding(.trailing, 16)
             }
         }
