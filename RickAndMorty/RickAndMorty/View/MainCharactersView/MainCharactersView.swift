@@ -10,7 +10,7 @@ import SwiftData
 
 struct MainCharactersView: View {
     
-    @ObservedObject private var viewModel = MainCharacterVM()
+    private var viewModel = MainCharacterVM()
     @State var inputText: String = ""
     @State private var isSearching = false
     @FocusState var isFocused: Bool
@@ -19,22 +19,21 @@ struct MainCharactersView: View {
         NavigationView {
             ZStack {
                 Color.backgroundsPrimary.ignoresSafeArea()
-                ScrollView(.vertical, showsIndicators: false) {
+                ScrollView(.vertical, showsIndicators: true) {
                     LazyVStack {
                         SearchInput(searchText: $inputText, isSearching: $isSearching, isFocused: $isFocused, cleanCharacters: viewModel.cleanSortedCharacters)
                             .onSubmit {
                                 Task {
-                                    await viewModel.searchCharacters(name: inputText)
+                                    await viewModel.fetchCharacters(type: .searchViewCharacters, name: inputText)
                                 }
                             }
                             .submitLabel(.go)
-                        
                         if !isSearching {
                             mainView
                         } else {
                             searchView
                         }
-                   }
+                    }
                 }
             }
             .toolbar {
@@ -46,7 +45,7 @@ struct MainCharactersView: View {
             }
         }
         .task {
-            await viewModel.fetchCharacters()
+            await viewModel.fetchCharacters(type: .mainViewCharacters)
         }
     }
 }
@@ -63,11 +62,9 @@ extension MainCharactersView {
             ) {
                 ListOfCharacters(character: character, isSearch: isSearching)
                     .onAppear {
-                        if character == viewModel.characters.last {
+                        if character.id == viewModel.characters.last?.id {
                             Task {
-                                await viewModel.fetchNextPageCharacters(isItSearch: false)
-                                print("Not search")
-                                print(viewModel.nextPage ?? "")
+                                await viewModel.fetchCharacters(type: .mainViewLoadMore)
                             }
                         }
                     }
@@ -84,9 +81,7 @@ extension MainCharactersView {
                     .onAppear {
                         if character == viewModel.sortedCharacters.last {
                             Task {
-                                await viewModel.fetchNextPageCharacters(isItSearch: true)
-                                print("Search")
-                                print(viewModel.nextFilteredPage ?? "")
+                                await viewModel.fetchCharacters(type: .searchViewLoadMore)
                             }
                         }
                     }

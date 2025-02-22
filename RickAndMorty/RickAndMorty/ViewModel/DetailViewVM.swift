@@ -8,21 +8,15 @@
 
 import SwiftUI
 import Observation
+import DataManager
 
 @Observable
 @MainActor
 class DetailViewVM {
+    let datamanager: DataManager = DataManager()
     var character: [Result] = []
     
     func fetchCharacter(id: Int) async {
-        do {
-            
-            let response = try await NetworkManager.shared.fetchData(from: URLConstant.detailOfCharacter(id: id).url, as: Result.self)
-            character = [response]
-        } catch {
-            if let error = error as? NetworkError {
-                print(error)
-            }
-        }
+        character = await datamanager.fetchDetailOfCharacter(id: id)
     }
 }

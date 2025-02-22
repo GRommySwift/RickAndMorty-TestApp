@@ -6,67 +6,56 @@
 //
 
 import SwiftUI
+import DataManager
 import Observation
 
+@Observable
 @MainActor
-class MainCharacterVM: ObservableObject {
-    @Published var characters: [Result] = []
+class MainCharacterVM {
+    
+    private let dataManager: DataManager = DataManager()
+    var characters: [Result] = []
     var sortedCharacters: [Result] = []
     
-    var nextPage: String? = nil
-    var nextFilteredPage: String? = nil
+    private var nextPage: String? = nil
+    private var nextFilteredPage: String? = nil
     
     func cleanSortedCharacters() {
         sortedCharacters = []
     }
     
-    func fetchCharacters() async {
-        do {
-            let response = try await NetworkManager.shared.fetchData(from: URLConstant.allCharacters.url, as: CharacterResponse.self)
-            self.characters = response.results
-            self.nextPage = response.info.next
-        } catch {
-            if let error = error as? NetworkError {
-                print(error)
-            }
+    func fetchCharacters(type: TypeOfFetch, name: String? = nil) async {
+        switch type {
+        case .mainViewCharacters:
+             (characters, nextPage) = await dataManager.fetchBasicCharacters()
+        case .searchViewCharacters:
+            (sortedCharacters, nextFilteredPage) = await dataManager.searchCharacters(name: name ?? "")
+        case .mainViewLoadMore:
+            await loadMore(type: .mainView)
+        case .searchViewLoadMore:
+            await loadMore(type: .searchView)
         }
     }
-    
-    func fetchNextPageCharacters(isItSearch: Bool) async {
-        guard let nextPage = nextPage else { return }
-        guard let nextFilteredPage = nextFilteredPage else { return }
-        do {
-            if isItSearch {
-                let response = try await NetworkManager.shared.fetchData(from: nextFilteredPage, as: CharacterResponse.self)
-                self.sortedCharacters.append(contentsOf: response.results)
-                self.nextFilteredPage = response.info.next
-            } else {
-                let response = try await NetworkManager.shared.fetchData(from: nextPage, as: CharacterResponse.self)
-                self.characters.append(contentsOf: response.results)
-                self.nextPage = response.info.next
-            }
-        } catch {
-            if let error = error as? NetworkError {
-                print(error)
-            }
-        }
-    }
-    
-    func searchCharacters(name: String) async {
-        guard !name.isEmpty else { return }
-        let trimmedString = name.trimmingCharacters(in: .whitespaces)
-        let modifiedString = trimmedString.lowercased()
-        let url = URLConstant.search(name: modifiedString).url
-        
-        do {
-            let response = try await NetworkManager.shared.fetchData(from: url, as: CharacterResponse.self)
-            self.sortedCharacters = response.results
-            self.nextFilteredPage = response.info.next
-        } catch {
-            if let error = error as? NetworkError {
-                print(error)
-            }
+ 
+    private func loadMore(type: typeOfLoadMore) async {
+        switch type {
+        case .mainView:
+            guard let nextPage = nextPage else { return }
+            let (characters, next) = await dataManager.mainViewLoadMore(nextPage: nextPage)
+            self.characters.append(contentsOf: characters)
+            self.nextPage = next
+        case .searchView:
+            guard let nextFilteredPage = nextFilteredPage else { return }
+            let (characters, next) = await dataManager.mainViewLoadMore(nextPage: nextFilteredPage)
+            self.characters.append(contentsOf: characters)
+            self.nextPage = next
         }
     }
 }
 
+extension MainCharacterVM {
+    enum typeOfLoadMore {
+        case mainView
+        case searchView
+    }
+}

@@ -45,10 +45,7 @@ struct SearchInput: View {
                                 .foregroundColor(.iconsPrimary)
                                 .padding(.trailing, 8)
                                , alignment: .trailing
-                        
                     )
-                
-                
             }
             .font(.paragraphMedium)
             .frame(height: 32)
@@ -56,7 +53,6 @@ struct SearchInput: View {
                 RoundedRectangle(cornerRadius: 25)
                     .fill(Color.secondary.opacity(0.1))
                     .shadow(color: .black, radius: 10, x: 0, y: 0))
-            
             .padding(.leading, 20)
             .padding(.trailing, isSearching ? 0 : 20).animation(.easeInOut(duration: 0.15), value: 0)
             .padding(.top, 10)

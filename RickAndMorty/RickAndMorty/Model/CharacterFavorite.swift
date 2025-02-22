@@ -6,6 +6,7 @@
 //
 
 import SwiftData
+import DataManager
 
 @Model
 class CharacterFavorite: CharacterRepresentable {

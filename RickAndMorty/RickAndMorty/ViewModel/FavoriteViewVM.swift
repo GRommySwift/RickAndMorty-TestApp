@@ -7,13 +7,13 @@
 
 import SwiftData
 import SwiftUI
+import DataManager
 
 @MainActor
 class FavoriteViewVM: ObservableObject {
     
-    var modelContext: ModelContext?
-    
     @Published var favorites: [CharacterFavorite]?
+    var modelContext: ModelContext?
     
     init(modelContext: ModelContext?) {
         self.modelContext = modelContext
@@ -25,7 +25,7 @@ class FavoriteViewVM: ObservableObject {
             let descriptor = FetchDescriptor<CharacterFavorite>()
             favorites = try modelContext?.fetch(descriptor)
         } catch {
-            print("Ошибка при загрузке избранного: \(error)")
+            print("Error of loading data \(error)")
         }
     }
     
@@ -50,10 +50,6 @@ class FavoriteViewVM: ObservableObject {
             )
             modelContext?.insert(newFavorite)
         }
-        
         fetchFavorites()
     }
 }
-
-
-

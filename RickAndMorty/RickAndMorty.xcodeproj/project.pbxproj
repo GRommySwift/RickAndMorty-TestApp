@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		30A937312D62126600FF4207 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 30A937302D62126600FF4207 /* Kingfisher */; };
+		30CA5B922D6A44500034FA23 /* DataManager in Frameworks */ = {isa = PBXBuildFile; productRef = 30CA5B912D6A44500034FA23 /* DataManager */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		30C14ED42D60E87900FE05D5 /* RickAndMorty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMorty.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		30C181712D6A34440060CB7B /* DataManager */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DataManager; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -40,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30CA5B922D6A44500034FA23 /* DataManager in Frameworks */,
 				30A937312D62126600FF4207 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,6 +53,7 @@
 		30C14ECB2D60E87900FE05D5 = {
 			isa = PBXGroup;
 			children = (
+				30C181712D6A34440060CB7B /* DataManager */,
 				30C14ED62D60E87900FE05D5 /* RickAndMorty */,
 				30C14ED52D60E87900FE05D5 /* Products */,
 			);
@@ -84,6 +88,7 @@
 			name = RickAndMorty;
 			packageProductDependencies = (
 				30A937302D62126600FF4207 /* Kingfisher */,
+				30CA5B912D6A44500034FA23 /* DataManager */,
 			);
 			productName = RickAndMorty;
 			productReference = 30C14ED42D60E87900FE05D5 /* RickAndMorty.app */;
@@ -115,6 +120,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				30A9372F2D62126600FF4207 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				30CA5B902D6A44500034FA23 /* XCLocalSwiftPackageReference "DataManager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 30C14ED52D60E87900FE05D5 /* Products */;
@@ -349,6 +355,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		30CA5B902D6A44500034FA23 /* XCLocalSwiftPackageReference "DataManager" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = DataManager;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		30A9372F2D62126600FF4207 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -365,6 +378,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 30A9372F2D62126600FF4207 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		30CA5B912D6A44500034FA23 /* DataManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DataManager;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

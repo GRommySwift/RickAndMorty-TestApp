@@ -1,13 +1,13 @@
 //
-//  NetworkError.swift
-//  RickAndMorty
+//  File.swift
+//  DataManager
 //
-//  Created by Roman on 16/02/2025.
+//  Created by Roman on 22/02/2025.
 //
 
 import Foundation
 
-enum NetworkError: Error {
+public enum NetworkError: Error {
     case invalidURL
     case networkError(Error)
     case invalidResponse
@@ -15,7 +15,7 @@ enum NetworkError: Error {
 }
 
 extension NetworkError: LocalizedError {
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         case .invalidURL:
             return "Invalid url"
@@ -28,3 +28,4 @@ extension NetworkError: LocalizedError {
         }
     }
 }
+

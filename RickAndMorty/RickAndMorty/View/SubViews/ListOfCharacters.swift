@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import DataManager
 
 struct ListOfCharacters<T: CharacterRepresentable>: View {
     
@@ -62,6 +63,6 @@ struct ListOfCharacters<T: CharacterRepresentable>: View {
     }
 }
 
-#Preview {
-    ListOfCharacters(character: Result(id: 1, name: "asdas asdas", status: "asdasd", species: "Asdasd", type: "asdasd", gender: "asdasd", origin: Location(name: "some"), location: Location(name: "where"), image: "AppIcon"), isSearch: false)
-}
+//#Preview {
+//    ListOfCharacters(character: Result(id: 1, name: "asdas asdas", status: "asdasd", species: "Asdasd", type: "asdasd", gender: "asdasd", origin: Location(name: "some"), location: Location(name: "where"), image: "AppIcon"), isSearch: false)
+//}

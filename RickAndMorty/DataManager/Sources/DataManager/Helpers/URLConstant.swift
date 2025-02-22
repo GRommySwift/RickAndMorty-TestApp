@@ -1,8 +1,8 @@
 //
 //  URLConstant.swift
-//  RickAndMorty
+//  DataManager
 //
-//  Created by Roman on 16/02/2025.
+//  Created by Roman on 22/02/2025.
 //
 
 import Foundation

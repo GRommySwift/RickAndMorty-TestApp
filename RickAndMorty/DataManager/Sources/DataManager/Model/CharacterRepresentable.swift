@@ -1,13 +1,13 @@
 //
-//  CharacterProtocol.swift
-//  RickAndMorty
+//  CharacterRepresentable.swift
+//  DataManager
 //
-//  Created by Roman on 20/02/2025.
+//  Created by Roman on 22/02/2025.
 //
 
 import Foundation
 
-protocol CharacterRepresentable {
+public protocol CharacterRepresentable {
     var id: Int { get }
     var name: String { get }
     var status: String { get }
@@ -18,3 +18,4 @@ protocol CharacterRepresentable {
     var locationName: String { get }
     var image: String? { get }
 }
+

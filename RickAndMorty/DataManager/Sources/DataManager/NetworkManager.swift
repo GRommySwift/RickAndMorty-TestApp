@@ -7,12 +7,13 @@
 
 import Foundation
 
-class NetworkManager {
-    static let shared = NetworkManager()
+public actor NetworkManager: DataManagerCommunication {
+    
+    public static let shared = NetworkManager()
     
     private init() {}
     
-    func fetchData<T: Decodable>(from url: String, as type: T.Type) async throws -> T {
+    func fetchData<T: Decodable & Sendable>(from url: String, as type: T.Type) async throws -> T {
         guard let url = URL(string: url) else {
             throw NetworkError.invalidURL
         }

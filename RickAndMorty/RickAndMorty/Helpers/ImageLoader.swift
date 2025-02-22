@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DataManager
 import Kingfisher
 
 struct ImageLoader<T: CharacterRepresentable>: View {
