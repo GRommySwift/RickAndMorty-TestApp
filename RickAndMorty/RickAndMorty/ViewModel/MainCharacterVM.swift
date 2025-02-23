@@ -37,12 +37,12 @@ class MainCharacterVM {
         switch type {
         case .mainView:
             guard let nextPage = nextPage else { return }
-            let (characters, next) = await dataManager.mainViewLoadMore(nextPage: nextPage)
+            let (characters, next) = await dataManager.mainViewLoadNextPage(nextPage)
             self.characters.append(contentsOf: characters)
             self.nextPage = next
         case .searchView:
             guard let nextFilteredPage = nextFilteredPage else { return }
-            let (characters, next) = await dataManager.mainViewLoadMore(nextPage: nextFilteredPage)
+            let (characters, next) = await dataManager.searchViewLoadNextPage(nextFilteredPage)
             self.sortedCharacters.append(contentsOf: characters)
             self.nextFilteredPage = next
         }

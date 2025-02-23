@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "30C14ED32D60E87900FE05D5"
-               BuildableName = "RickAndMorty.app"
-               BlueprintName = "RickAndMorty"
-               ReferencedContainer = "container:RickAndMorty.xcodeproj">
+               BlueprintIdentifier = "DataManager"
+               BuildableName = "DataManager"
+               BlueprintName = "DataManager"
+               ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -31,49 +31,27 @@
       shouldAutocreateTestPlan = "YES">
       <Testables>
          <TestableReference
-            skipped = "YES"
-            parallelizable = "YES">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "30C0007E2D6B73A8007A819C"
-               BuildableName = "RickAndMortyTests.xctest"
-               BlueprintName = "RickAndMortyTests"
-               ReferencedContainer = "container:RickAndMorty.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "YES"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "30C000912D6B7CB4007A819C"
-               BuildableName = "DataManagerTests.xctest"
+               BlueprintIdentifier = "DataManagerTests"
+               BuildableName = "DataManagerTests"
                BlueprintName = "DataManagerTests"
-               ReferencedContainer = "container:RickAndMorty.xcodeproj">
+               ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "30C14ED32D60E87900FE05D5"
-            BuildableName = "RickAndMorty.app"
-            BlueprintName = "RickAndMorty"
-            ReferencedContainer = "container:RickAndMorty.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -81,16 +59,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "30C14ED32D60E87900FE05D5"
-            BuildableName = "RickAndMorty.app"
-            BlueprintName = "RickAndMorty"
-            ReferencedContainer = "container:RickAndMorty.xcodeproj">
+            BlueprintIdentifier = "DataManager"
+            BuildableName = "DataManager"
+            BlueprintName = "DataManager"
+            ReferencedContainer = "container:">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
