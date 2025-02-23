@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import DataManager
 
 struct MainCharactersView: View {
     
@@ -57,35 +58,32 @@ struct MainCharactersView: View {
 extension MainCharactersView {
     var mainView: some View {
         ForEach(viewModel.characters, id: \.id) { character in
-            NavigationLink(
-                destination: DetailView(backButtonTitle: character.name, idOfCharacter: character.id)
-            ) {
-                ListOfCharacters(character: character, isSearch: isSearching)
-                    .onAppear {
-                        if character.id == viewModel.characters.last?.id {
-                            Task {
-                                await viewModel.fetchCharacters(type: .mainViewLoadMore)
-                            }
-                        }
-                    }
-            }
+            listView(character: character, type: .mainView)
         }
     }
     
     var searchView: some View {
         ForEach(viewModel.sortedCharacters, id: \.id) { character in
-            NavigationLink(
-                destination: DetailView(backButtonTitle: character.name, idOfCharacter: character.id)
-            ) {
-                ListOfCharacters(character: character, isSearch: isSearching)
-                    .onAppear {
-                        if character == viewModel.sortedCharacters.last {
-                            Task {
-                                await viewModel.fetchCharacters(type: .searchViewLoadMore)
-                            }
+            listView(character: character, type: .searchView)
+        }
+    }
+    
+    func listView(character: Result, type: typeOfLoadMore) -> some View {
+        NavigationLink(
+            destination: DetailView(backButtonTitle: character.name, idOfCharacter: character.id)
+        ) {
+            ListOfCharacters(character: character, isSearch: isSearching)
+                .onAppear {
+                    switch type {
+                    case .mainView where character == viewModel.characters.last,
+                            .searchView where character == viewModel.sortedCharacters.last:
+                        Task {
+                            await viewModel.loadMoreCharacters(type: type)
                         }
+                    default:
+                        break
                     }
-            }
+                }
         }
     }
 }

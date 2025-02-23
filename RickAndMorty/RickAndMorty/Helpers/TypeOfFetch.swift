@@ -9,7 +9,10 @@ import Foundation
 
 enum TypeOfFetch {
     case mainViewCharacters
-    case mainViewLoadMore
     case searchViewCharacters
-    case searchViewLoadMore
+}
+
+enum typeOfLoadMore {
+    case mainView
+    case searchView
 }

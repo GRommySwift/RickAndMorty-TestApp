@@ -8,55 +8,58 @@
 import SwiftUI
 
 struct SearchInput: View {
+    
     @Environment(\.dismiss) var dismiss
     @Binding var searchText: String
     @Binding var isSearching: Bool
     var isFocused: FocusState<Bool>.Binding
     let cleanCharacters: () -> ()
+    
     var body: some View {
         HStack {
             HStack {
                 TextField("Search character", text: $searchText)
                     .foregroundColor(.foregroundsSecondary)
-                    .font(.paragraphMedium)
-                    .padding(.leading, 40)
+                    .font(SearchBarConstants.textFieldFont)
+                    .padding(.leading, SearchBarConstants.textFieldPaddingLeading)
                     .focused(isFocused)
                     .onChange(of: isFocused.wrappedValue) {
                         isSearching = true
                     }
                     .overlay(
                         Image("search")
-                            .frame(width: 18, height: 18)
+                            .frame(width: SearchBarConstants.iconSize, height: SearchBarConstants.iconSize)
                             .foregroundColor(.iconsPrimary)
                             .padding()
-                            .offset(x: -5)
-                        , alignment: .leading
+                            .offset(x: SearchBarConstants.iconOffsetX),
+                        alignment: .leading
                     )
-                
-                    .overlay (
-                            Image("x-circle")
-                                .opacity(searchText.isEmpty ? 0 : 1)
-                                .onTapGesture {
-                                    searchText = ""
-                                    cleanCharacters()
-                                }
-                                .contentShape(Rectangle())
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(.iconsPrimary)
-                                .padding(.trailing, 8)
-                               , alignment: .trailing
+                    .overlay(
+                        Image("x-circle")
+                            .opacity(searchText.isEmpty ? 0 : 1)
+                            .onTapGesture {
+                                searchText = ""
+                                cleanCharacters()
+                            }
+                            .contentShape(Rectangle())
+                            .frame(width: SearchBarConstants.clearButtonSize, height: SearchBarConstants.clearButtonSize)
+                            .foregroundColor(.iconsPrimary)
+                            .padding(.trailing, SearchBarConstants.clearButtonPaddingTrailing),
+                        alignment: .trailing
                     )
             }
-            .font(.paragraphMedium)
-            .frame(height: 32)
+            .font(SearchBarConstants.textFieldFont)
+            .frame(height: SearchBarConstants.textFieldHeight)
             .background(
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(Color.secondary.opacity(0.1))
-                    .shadow(color: .black, radius: 10, x: 0, y: 0))
-            .padding(.leading, 20)
-            .padding(.trailing, isSearching ? 0 : 20).animation(.easeInOut(duration: 0.15), value: 0)
-            .padding(.top, 10)
-            .padding(.bottom, isSearching ? 16 : 24)
+                RoundedRectangle(cornerRadius: SearchBarConstants.searchBarCornerRadius)
+                    .fill(Color.secondary.opacity(SearchBarConstants.searchBarBackgroundOpacity))
+                    .shadow(color: .black, radius: SearchBarConstants.searchBarShadowRadius, x: 0, y: 0)
+            )
+            .padding(.leading, SearchBarConstants.hStackPaddingLeading)
+            .padding(.trailing, isSearching ? SearchBarConstants.hStackPaddingTrailingSearching : SearchBarConstants.hStackPaddingTrailingDefault)
+            .animation(.easeInOut(duration: SearchBarConstants.animationDuration), value: 0)
+            .padding(.top, SearchBarConstants.hStackPaddingTop)
+            .padding(.bottom, isSearching ? SearchBarConstants.hStackPaddingBottomSearching : SearchBarConstants.hStackPaddingBottomDefault)
             
             if isSearching {
                 Button {
@@ -65,11 +68,12 @@ struct SearchInput: View {
                 } label: {
                     Text("Cancel")
                         .foregroundStyle(.foregroundsPrimary)
-                        .font(.paragraphMedium)
+                        .font(SearchBarConstants.textFieldFont)
                 }
-                .padding(.bottom, 6)
-                .padding(.trailing, 16)
+                .padding(.bottom, SearchBarConstants.cancelButtonPaddingBottom)
+                .padding(.trailing, SearchBarConstants.cancelButtonPaddingTrailing)
             }
         }
     }
+
 }

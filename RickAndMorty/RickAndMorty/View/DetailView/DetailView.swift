@@ -46,7 +46,6 @@ struct DetailView: View {
                             .font(.paragraphMedium)
                             .foregroundStyle(.foregroundsPrimary)
                     }
-                    
                 }
             }
         }
@@ -72,44 +71,43 @@ private extension DetailView {
         .task {
             await viewModel.fetchCharacter(id: idOfCharacter)
         }
-        .padding(.horizontal, UIConstants.cardPadding)
-        .padding(.top, UIConstants.cardPadding)
-        .frame(maxWidth: UIConstants.cardMaxWidth)
+        .padding(.horizontal, DetailViewConstants.cardPadding)
+        .padding(.top, DetailViewConstants.cardPadding)
+        .frame(maxWidth: DetailViewConstants.cardMaxWidth)
         .background(.backgroundsTertiary)
-        .cornerRadius(UIConstants.cardCornerRadius)
-        .shadow(radius: UIConstants.cardShadowRadius)
+        .cornerRadius(DetailViewConstants.cardCornerRadius)
+        .shadow(radius: DetailViewConstants.cardShadowRadius)
     }
     
     // MARK: - Header of character card view
     
     func headerView(character: Result) -> some View {
         HStack {
-            ImageLoader(widthOfImage: UIConstants.imageWidth, character: character)
+            ImageLoader(widthOfImage: DetailViewConstants.imageWidth, character: character)
             VStack(alignment: .leading) {
                 Text("Name")
                     .font(.paragraphMedium)
                     .foregroundColor(.foregroundsSecondary)
-                    .offset(x: UIConstants.textXOffset, y: UIConstants.nameYOffset)
-                
+                    .offset(x: DetailViewConstants.textXOffset, y: DetailViewConstants.nameYOffset)
                 Text(character.name)
                     .font(.headLine2)
                     .foregroundColor(.foregroundsPrimary)
-                    .frame(width: UIConstants.textWidth, alignment: .leading)
-                    .offset(x: UIConstants.textXOffset, y: UIConstants.valueYOffset)
+                    .frame(width: DetailViewConstants.textWidth, alignment: .leading)
+                    .offset(x: DetailViewConstants.textXOffset, y: DetailViewConstants.valueYOffset)
             }
             Spacer()
         }
-        .padding(UIConstants.imagePadding)
-        .frame(height: UIConstants.headerHeight)
+        .padding(DetailViewConstants.imagePadding)
+        .frame(height: DetailViewConstants.headerHeight)
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(
             Image(isFavorite ? "favorites_active" : "favorites_inactive")
                 .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
-                .frame(width: UIConstants.favoriteIconSize, height: UIConstants.favoriteIconSize)
+                .frame(width: DetailViewConstants.favoriteIconSize, height: DetailViewConstants.favoriteIconSize)
                 .foregroundStyle(isFavorite ? .accentPrimary : .iconsSecondary)
-                .offset(x: UIConstants.favoriteIconXOffset, y: UIConstants.favoriteIconYOffset),
+                .offset(x: DetailViewConstants.favoriteIconXOffset, y: DetailViewConstants.favoriteIconYOffset),
             alignment: .topTrailing
         )
         .onTapGesture {
@@ -128,20 +126,18 @@ private extension DetailView {
             ("Origin", character.origin.name),
             ("Location", character.location.name)
         ]
-        
-        return LazyVGrid(columns: UIConstants.gridColumns, spacing: UIConstants.gridVerticalSpacing) {
+        return LazyVGrid(columns: DetailViewConstants.gridColumns, spacing: DetailViewConstants.gridVerticalSpacing) {
             ForEach(details, id: \.title) { detail in
                 Text(detail.title)
                     .font(.paragraphSmall)
                     .foregroundStyle(.foregroundsSecondary)
-                
                 Text(detail.value)
                     .font(.headLine3)
                     .foregroundStyle(.foregroundsPrimary)
             }
         }
-        .padding(.leading, UIConstants.detailsPaddingLeading)
-        .padding(.vertical, UIConstants.detailsPaddingVertical)
+        .padding(.leading, DetailViewConstants.detailsPaddingLeading)
+        .padding(.vertical, DetailViewConstants.detailsPaddingVertical)
     }
 }
 

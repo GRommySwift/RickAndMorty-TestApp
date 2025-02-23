@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TabBarView: View {
+    
     @State private var selectedIndex: Int = 0
     
     var body: some View {
@@ -31,7 +32,7 @@ struct TabBarView: View {
 extension TabBarView {
     
     var customTabBar: some View {
-        HStack(spacing: 40) {
+        HStack(spacing: TabBarConstants.spacing) {
             ForEach(TabItems.allCases, id: \.self) { item in
                 Button {
                     selectedIndex = item.rawValue
@@ -40,19 +41,23 @@ extension TabBarView {
                 }
             }
         }
-        .frame(width: 182, height: 62)
+        .frame(width: TabBarConstants.tabBarWidth, height: TabBarConstants.tabBarHeight)
         .background(.backgroundsBottomNavigation)
-        .cornerRadius(40)
-        .shadow(color: .shadowPrimary.opacity(0.16), radius: 16, y: 2)
+        .cornerRadius(TabBarConstants.tabBarCornerRadius)
+        .shadow(
+            color: .shadowPrimary.opacity(TabBarConstants.tabBarShadowOpacity),
+            radius: TabBarConstants.tabBarShadowRadius,
+            y: TabBarConstants.tabBarShadowOffsetY
+        )
     }
     
     func customTabItem(image: Image, isActive: Bool) -> some View {
-        HStack() {
+        HStack {
             image
                 .resizable()
                 .renderingMode(.template)
                 .foregroundColor(isActive ? .accentPrimary : .iconsSecondary)
-                .frame(width: 42, height: 42)
+                .frame(width: TabBarConstants.iconSize, height: TabBarConstants.iconSize)
         }
     }
 }

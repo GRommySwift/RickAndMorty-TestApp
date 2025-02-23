@@ -27,17 +27,13 @@ class MainCharacterVM {
     func fetchCharacters(type: TypeOfFetch, name: String? = nil) async {
         switch type {
         case .mainViewCharacters:
-             (characters, nextPage) = await dataManager.fetchBasicCharacters()
+            (characters, nextPage) = await dataManager.fetchBasicCharacters()
         case .searchViewCharacters:
             (sortedCharacters, nextFilteredPage) = await dataManager.searchCharacters(name: name ?? "")
-        case .mainViewLoadMore:
-            await loadMore(type: .mainView)
-        case .searchViewLoadMore:
-            await loadMore(type: .searchView)
         }
     }
- 
-    private func loadMore(type: typeOfLoadMore) async {
+    
+    func loadMoreCharacters(type: typeOfLoadMore) async {
         switch type {
         case .mainView:
             guard let nextPage = nextPage else { return }
@@ -47,15 +43,8 @@ class MainCharacterVM {
         case .searchView:
             guard let nextFilteredPage = nextFilteredPage else { return }
             let (characters, next) = await dataManager.mainViewLoadMore(nextPage: nextFilteredPage)
-            self.characters.append(contentsOf: characters)
-            self.nextPage = next
+            self.sortedCharacters.append(contentsOf: characters)
+            self.nextFilteredPage = next
         }
-    }
-}
-
-extension MainCharacterVM {
-    enum typeOfLoadMore {
-        case mainView
-        case searchView
     }
 }
