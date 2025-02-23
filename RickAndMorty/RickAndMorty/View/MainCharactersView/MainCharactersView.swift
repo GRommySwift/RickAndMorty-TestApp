@@ -20,7 +20,7 @@ struct MainCharactersView: View {
         NavigationView {
             ZStack {
                 Color.backgroundsPrimary.ignoresSafeArea()
-                ScrollView(.vertical, showsIndicators: true) {
+                ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack {
                         SearchInput(searchText: $inputText, isSearching: $isSearching, isFocused: $isFocused, cleanCharacters: viewModel.cleanSortedCharacters)
                             .onSubmit {
@@ -47,6 +47,7 @@ struct MainCharactersView: View {
         }
         .task {
             await viewModel.fetchCharacters(type: .mainViewCharacters)
+            print("Width - \(UIScreen.main.bounds.width) , height - \(UIScreen.main.bounds.height)")
         }
     }
 }
