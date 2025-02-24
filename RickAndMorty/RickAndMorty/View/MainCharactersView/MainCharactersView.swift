@@ -23,7 +23,7 @@ struct MainCharactersView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack {
                         SearchInput(searchText: $inputText, isSearching: $isSearching, isFocused: $isFocused, cleanCharacters: viewModel.cleanSortedCharacters)
-                            .onSubmit {
+                            .onChange(of: inputText) {
                                 Task {
                                     await viewModel.fetchCharacters(type: .searchViewCharacters, name: inputText)
                                 }
@@ -47,7 +47,6 @@ struct MainCharactersView: View {
         }
         .task {
             await viewModel.fetchCharacters(type: .mainViewCharacters)
-            print("Width - \(UIScreen.main.bounds.width) , height - \(UIScreen.main.bounds.height)")
         }
     }
 }
