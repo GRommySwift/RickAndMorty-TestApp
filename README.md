@@ -1,4 +1,5 @@
 # Rick and Morty App 
+
 This is iOS appliction (tesk task) is created as a part of interview for ackee.cz by Roman Holovai at 23.02.2025 <br>
 <a href="https://github.com/AckeeCZ/ios-task-rick-and-morty?tab=readme-ov-file">HERE</a> you can see basic requirements and design of this project.
 
@@ -34,3 +35,5 @@ This is iOS appliction (tesk task) is created as a part of interview for ackee.c
   <img src="7.png" width="250"/>
   <img src="8.png" width="250"/>
 </p>
+
+
